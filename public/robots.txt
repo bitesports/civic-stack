@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://civicstack.io/sitemap.xml
+

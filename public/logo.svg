@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Bottom layer - darkest -->
+  <path d="M50 85 L15 67 L15 58 L50 76 L85 58 L85 67 Z" fill="#1E3A5F"/>
+  
+  <!-- Middle layer -->
+  <path d="M50 70 L15 52 L15 43 L50 61 L85 43 L85 52 Z" fill="#3B82F6"/>
+  
+  <!-- Top layer with network nodes -->
+  <path d="M50 55 L15 37 L50 19 L85 37 Z" fill="url(#topGradient)"/>
+  
+  <!-- Network nodes on top layer -->
+  <circle cx="40" cy="33" r="4" fill="white"/>
+  <circle cx="60" cy="33" r="4" fill="white"/>
+  <circle cx="50" cy="40" r="4" fill="white"/>
+  <circle cx="50" cy="26" r="3" fill="white"/>
+  
+  <!-- Connection lines -->
+  <line x1="40" y1="33" x2="50" y2="40" stroke="white" stroke-width="2"/>
+  <line x1="60" y1="33" x2="50" y2="40" stroke="white" stroke-width="2"/>
+  <line x1="40" y1="33" x2="50" y2="26" stroke="white" stroke-width="2"/>
+  <line x1="60" y1="33" x2="50" y2="26" stroke="white" stroke-width="2"/>
+  
+  <!-- Gradient definition -->
+  <defs>
+    <linearGradient id="topGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5EAFC0"/>
+      <stop offset="100%" style="stop-color:#3B82F6"/>
+    </linearGradient>
+  </defs>
+</svg>
+
