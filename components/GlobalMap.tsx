@@ -78,9 +78,20 @@ export default function GlobalMap() {
   const [viewMode, setViewMode] = useState<ViewMode>("all");
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
   const [hoveredNetwork, setHoveredNetwork] = useState<string | null>(null);
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+  const [selectedNetwork, setSelectedNetwork] = useState<string | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [countries, setCountries] = useState<Feature<Geometry, CountryProperties>[]>([]);
+  const [isMobile, setIsMobile] = useState(false);
   const mapRef = useRef<HTMLDivElement>(null);
+
+  // Check for mobile
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Load TopoJSON data
   useEffect(() => {
@@ -115,19 +126,34 @@ export default function GlobalMap() {
     }
   };
 
-  const getCountryColor = (countryName: string, isHovered: boolean) => {
+  // Handle touch/click for mobile
+  const handleCountryClick = (countryName: string) => {
+    if (isMobile) {
+      setSelectedCountry(selectedCountry === countryName ? null : countryName);
+      setSelectedNetwork(null);
+    }
+  };
+
+  const handleNetworkClick = (networkId: string) => {
+    if (isMobile) {
+      setSelectedNetwork(selectedNetwork === networkId ? null : networkId);
+      setSelectedCountry(null);
+    }
+  };
+
+  const getCountryColor = (countryName: string, isHovered: boolean, isSelected: boolean) => {
     const isActive = activeCountries[countryName];
     
     // When viewing network states only, show map in muted colors
     if (!highlightNationStates) {
-      if (isHovered) {
-        return "#3B82F6"; // Blue on hover
+      if (isHovered || isSelected) {
+        return "#3B82F6"; // Blue on hover/select
       }
       return isActive ? "#D1D5DB" : "#E5E7EB"; // Muted gray for all countries
     }
     
-    if (isHovered) {
-      return "#3B82F6"; // Blue on hover
+    if (isHovered || isSelected) {
+      return "#3B82F6"; // Blue on hover/select
     }
     
     if (isActive) {
@@ -141,52 +167,60 @@ export default function GlobalMap() {
   const showNationStates = true; // Always show the map
   const highlightNationStates = viewMode !== "network"; // Only highlight when not in network-only mode
 
+  const activeSelection = selectedCountry || selectedNetwork;
+  const activeSelectionData = selectedCountry 
+    ? { name: selectedCountry, type: "Nation State" as const }
+    : selectedNetwork 
+    ? { name: networkStates.find(n => n.id === selectedNetwork)?.name || "", type: "Network State" as const }
+    : null;
+
   return (
-    <section ref={ref} className="py-32 bg-marble relative overflow-hidden marble-texture">
+    <section ref={ref} className="py-16 md:py-32 bg-marble relative overflow-hidden marble-texture">
       {/* Top border */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent" />
 
-      <div className="max-w-4xl mx-auto px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto px-4 md:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-12"
+          className="text-center mb-8 md:mb-12"
         >
-          <p className="text-stone tracking-[0.3em] uppercase text-sm mb-4">Global Reach</p>
-          <h2 className="font-[family-name:var(--font-syne)] text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+          <p className="text-stone tracking-[0.3em] uppercase text-xs md:text-sm mb-3 md:mb-4">Global Reach</p>
+          <h2 className="font-[family-name:var(--font-syne)] text-2xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6">
             Jurisdiction L2 Network
           </h2>
-          <p className="text-stone text-lg max-w-2xl mx-auto">
+          <p className="text-stone text-sm md:text-lg max-w-2xl mx-auto px-2">
             Explore jurisdictions building their sovereign infrastructure on Civic Stack.
           </p>
         </motion.div>
 
-        {/* Toggle Buttons */}
+        {/* Toggle Buttons - Mobile Optimized */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex justify-center mb-8"
+          className="flex justify-center mb-6 md:mb-8"
         >
-          <div className="inline-flex bg-white border border-stone-light/50 rounded-lg overflow-hidden shadow-sm">
+          <div className="inline-flex bg-white border border-stone-light/50 rounded-lg overflow-hidden shadow-sm w-full md:w-auto max-w-sm md:max-w-none">
             {[
-              { id: "all" as ViewMode, label: "All", icon: "⊞" },
-              { id: "nation" as ViewMode, label: "Nation States", icon: "🏛" },
-              { id: "network" as ViewMode, label: "Network States", icon: "🌐" },
+              { id: "all" as ViewMode, label: "All", mobileLabel: "All", icon: "⊞" },
+              { id: "nation" as ViewMode, label: "Nation States", mobileLabel: "Nations", icon: "🏛" },
+              { id: "network" as ViewMode, label: "Network States", mobileLabel: "Networks", icon: "🌐" },
             ].map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setViewMode(tab.id)}
-                className={`px-6 py-3 text-sm font-medium transition-all duration-300 flex items-center gap-2 border-r border-stone-light/30 last:border-r-0 ${
+                className={`flex-1 md:flex-none px-3 md:px-6 py-2.5 md:py-3 text-xs md:text-sm font-medium transition-all duration-300 flex items-center justify-center gap-1.5 md:gap-2 border-r border-stone-light/30 last:border-r-0 ${
                   viewMode === tab.id
                     ? "bg-blue-500 text-white"
                     : "bg-white text-stone hover:bg-stone-light/20"
                 }`}
               >
                 <span>{tab.icon}</span>
-                <span className="hidden sm:inline">{tab.label}</span>
+                <span className="md:hidden">{tab.mobileLabel}</span>
+                <span className="hidden md:inline">{tab.label}</span>
               </button>
             ))}
           </div>
@@ -198,19 +232,27 @@ export default function GlobalMap() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={isInView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="relative bg-white border border-stone-light/30 rounded-2xl overflow-hidden shadow-lg"
+          className="relative bg-white border border-stone-light/30 rounded-xl md:rounded-2xl overflow-hidden shadow-lg"
           onMouseMove={handleMouseMove}
         >
+          {/* Mobile instruction */}
+          {isMobile && !activeSelection && (
+            <div className="absolute top-2 left-1/2 -translate-x-1/2 z-10 bg-obsidian/80 text-marble text-xs px-3 py-1.5 rounded-full">
+              Tap a country to explore
+            </div>
+          )}
+
           <svg
             viewBox="0 0 800 500"
             className="w-full h-auto"
-            style={{ minHeight: "280px", background: "#FAFAFA" }}
+            style={{ minHeight: isMobile ? "220px" : "280px", background: "#FAFAFA" }}
           >
             {/* Render countries */}
             {showNationStates && countries.map((country, index) => {
               const countryName = country.properties?.name || `country-${index}`;
               const path = pathGenerator(country);
               const isHovered = hoveredCountry === countryName;
+              const isSelected = selectedCountry === countryName;
               
               if (!path) return null;
               
@@ -218,14 +260,15 @@ export default function GlobalMap() {
                 <path
                   key={index}
                   d={path}
-                  fill={getCountryColor(countryName, isHovered)}
+                  fill={getCountryColor(countryName, isHovered, isSelected)}
                   stroke="#FFFFFF"
-                  strokeWidth={isHovered ? 1.5 : 0.5}
+                  strokeWidth={isHovered || isSelected ? 1.5 : 0.5}
                   className="transition-all duration-200 cursor-pointer"
-                  onMouseEnter={() => setHoveredCountry(countryName)}
-                  onMouseLeave={() => setHoveredCountry(null)}
+                  onMouseEnter={() => !isMobile && setHoveredCountry(countryName)}
+                  onMouseLeave={() => !isMobile && setHoveredCountry(null)}
+                  onClick={() => handleCountryClick(countryName)}
                   style={{
-                    filter: isHovered ? "brightness(1.1) drop-shadow(0 2px 4px rgba(0,0,0,0.2))" : "none",
+                    filter: isHovered || isSelected ? "brightness(1.1) drop-shadow(0 2px 4px rgba(0,0,0,0.2))" : "none",
                   }}
                 />
               );
@@ -234,6 +277,7 @@ export default function GlobalMap() {
             {/* Network state markers */}
             {filteredNetworkStates.map((ns) => {
               const isHovered = hoveredNetwork === ns.id;
+              const isSelected = selectedNetwork === ns.id;
               return (
                 <g key={ns.id}>
                   {/* Pulse animation */}
@@ -261,24 +305,26 @@ export default function GlobalMap() {
                   <circle
                     cx={ns.x}
                     cy={ns.y}
-                    r={isHovered ? 10 : 8}
-                    fill={isHovered ? "#3B82F6" : "#C9A227"}
+                    r={isHovered || isSelected ? 10 : 8}
+                    fill={isHovered || isSelected ? "#3B82F6" : "#C9A227"}
                     stroke="#FFFFFF"
                     strokeWidth="2"
                     className="cursor-pointer transition-all duration-200"
-                    onMouseEnter={() => setHoveredNetwork(ns.id)}
-                    onMouseLeave={() => setHoveredNetwork(null)}
+                    onMouseEnter={() => !isMobile && setHoveredNetwork(ns.id)}
+                    onMouseLeave={() => !isMobile && setHoveredNetwork(null)}
+                    onClick={() => handleNetworkClick(ns.id)}
                     style={{
-                      filter: isHovered ? "drop-shadow(0 2px 4px rgba(0,0,0,0.3))" : "none",
+                      filter: isHovered || isSelected ? "drop-shadow(0 2px 4px rgba(0,0,0,0.3))" : "none",
                     }}
                   />
-                  {/* Label */}
-                  {isHovered && (
+                  {/* Label - always show on desktop hover, always show on mobile */}
+                  {(isHovered || (isMobile && viewMode !== "nation")) && (
                     <text
                       x={ns.x}
                       y={ns.y - 16}
                       textAnchor="middle"
                       className="fill-obsidian text-xs font-semibold pointer-events-none"
+                      style={{ fontSize: isMobile ? "10px" : "12px" }}
                     >
                       {ns.name}
                     </text>
@@ -288,52 +334,101 @@ export default function GlobalMap() {
             })}
           </svg>
 
-          {/* Hover Tooltip */}
-          <AnimatePresence>
-            {(hoveredCountry || hoveredNetwork) && (
-              <motion.div
-                initial={{ opacity: 0, y: 5, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 5, scale: 0.95 }}
-                transition={{ duration: 0.15 }}
-                className="absolute pointer-events-none bg-white shadow-lg border border-stone-light/30 rounded-lg p-3 z-20"
-                style={{
-                  left: Math.min(Math.max(tooltipPos.x - 60, 16), 400),
-                  top: Math.max(tooltipPos.y - 80, 16),
-                  minWidth: "140px",
-                }}
-              >
-                <div className="text-center">
-                  <h4 className="font-[family-name:var(--font-syne)] font-semibold text-sm text-obsidian mb-0.5">
-                    {hoveredCountry || networkStates.find(n => n.id === hoveredNetwork)?.name}
-                  </h4>
-                  <p className="text-stone text-xs mb-2">
-                    {hoveredNetwork ? "Network State" : "Nation State"}
-                  </p>
-                  <button className="w-full px-3 py-1.5 bg-blue-500 text-white text-xs font-semibold rounded hover:bg-blue-600 transition-colors">
-                    Get in touch
-                  </button>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {/* Desktop Hover Tooltip */}
+          {!isMobile && (
+            <AnimatePresence>
+              {(hoveredCountry || hoveredNetwork) && (
+                <motion.div
+                  initial={{ opacity: 0, y: 5, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 5, scale: 0.95 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute pointer-events-none bg-white shadow-lg border border-stone-light/30 rounded-lg p-3 z-20"
+                  style={{
+                    left: Math.min(Math.max(tooltipPos.x - 60, 16), 400),
+                    top: Math.max(tooltipPos.y - 80, 16),
+                    minWidth: "140px",
+                  }}
+                >
+                  <div className="text-center">
+                    <h4 className="font-[family-name:var(--font-syne)] font-semibold text-sm text-obsidian mb-0.5">
+                      {hoveredCountry || networkStates.find(n => n.id === hoveredNetwork)?.name}
+                    </h4>
+                    <p className="text-stone text-xs mb-2">
+                      {hoveredNetwork ? "Network State" : "Nation State"}
+                    </p>
+                    <button className="w-full px-3 py-1.5 bg-blue-500 text-white text-xs font-semibold rounded hover:bg-blue-600 transition-colors">
+                      Get in touch
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          )}
 
-          {/* Legend */}
-          <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm p-4 border border-stone-light/30 rounded-xl shadow-md">
-            <p className="text-xs font-bold text-obsidian mb-3 uppercase tracking-wider">Legend</p>
-            <div className="flex flex-col gap-2.5 text-sm">
-              <div className="flex items-center gap-3">
-                <div className="w-4 h-4 rounded bg-green-400" />
-                <span className="text-obsidian">Nation State L2</span>
+          {/* Mobile Selection Card - Bottom Sheet Style */}
+          {isMobile && (
+            <AnimatePresence>
+              {activeSelectionData && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute bottom-0 left-0 right-0 bg-white border-t border-stone-light/30 p-4 z-20"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="font-[family-name:var(--font-syne)] font-semibold text-base text-obsidian">
+                        {activeSelectionData.name}
+                      </h4>
+                      <p className="text-stone text-xs">
+                        {activeSelectionData.type}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button className="px-4 py-2 bg-blue-500 text-white text-xs font-semibold rounded-lg hover:bg-blue-600 transition-colors">
+                        Get in touch
+                      </button>
+                      <button 
+                        onClick={() => { setSelectedCountry(null); setSelectedNetwork(null); }}
+                        className="p-2 text-stone hover:text-obsidian transition-colors"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          )}
+
+          {/* Legend - Responsive */}
+          <div className={`absolute bg-white/95 backdrop-blur-sm border border-stone-light/30 shadow-md ${
+            isMobile 
+              ? "top-10 right-2 p-2 rounded-lg" 
+              : "bottom-4 left-4 p-4 rounded-xl"
+          }`}>
+            <p className={`font-bold text-obsidian uppercase tracking-wider ${
+              isMobile ? "text-[10px] mb-1.5" : "text-xs mb-3"
+            }`}>Legend</p>
+            <div className={`flex gap-2 ${isMobile ? "flex-col gap-1.5" : "flex-col gap-2.5"}`}>
+              <div className="flex items-center gap-2">
+                <div className={`rounded bg-green-400 ${isMobile ? "w-3 h-3" : "w-4 h-4"}`} />
+                <span className={`text-obsidian ${isMobile ? "text-[10px]" : "text-sm"}`}>Nation State</span>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="w-4 h-4 rounded-full bg-gold" />
-                <span className="text-obsidian">Network State L2</span>
+              <div className="flex items-center gap-2">
+                <div className={`rounded-full bg-gold ${isMobile ? "w-3 h-3" : "w-4 h-4"}`} />
+                <span className={`text-obsidian ${isMobile ? "text-[10px]" : "text-sm"}`}>Network State</span>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="w-4 h-4 rounded bg-gray-200" />
-                <span className="text-obsidian">Available</span>
-              </div>
+              {!isMobile && (
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded bg-gray-200" />
+                  <span className="text-obsidian text-sm">Available</span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -344,12 +439,12 @@ export default function GlobalMap() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="text-center mt-12"
+          className="text-center mt-8 md:mt-12"
         >
-          <p className="text-stone mb-4">Don&apos;t see your jurisdiction?</p>
+          <p className="text-stone text-sm md:text-base mb-3 md:mb-4">Don&apos;t see your jurisdiction?</p>
           <a
             href="#contact"
-            className="inline-block px-8 py-4 bg-obsidian text-marble text-sm tracking-[0.2em] uppercase hover:bg-gold hover:text-obsidian transition-all duration-300"
+            className="inline-block px-6 md:px-8 py-3 md:py-4 bg-obsidian text-marble text-xs md:text-sm tracking-[0.2em] uppercase hover:bg-gold hover:text-obsidian transition-all duration-300"
           >
             Launch Your L2
           </a>

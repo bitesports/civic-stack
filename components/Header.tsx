@@ -17,6 +17,7 @@ export default function Header() {
 
   const navItems = [
     { label: "The Stack", href: "#stack" },
+    { label: "L2 States", href: "/l2states" },
     { label: "Partners", href: "#partners" },
     { label: "Team", href: "#team" },
     { label: "Invest", href: "#invest" },
