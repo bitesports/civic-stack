@@ -20,7 +20,6 @@ export default function Header() {
     { label: "L2 States", href: "/l2states" },
     { label: "Partners", href: "#partners" },
     { label: "Team", href: "#team" },
-    { label: "Invest", href: "#invest" },
   ];
 
   return (
@@ -47,7 +46,7 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            {navItems.slice(0, -1).map((item) => (
+            {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
@@ -56,12 +55,6 @@ export default function Header() {
                 {item.label}
               </a>
             ))}
-            <a
-              href="#invest"
-              className="bg-obsidian text-marble px-6 py-2.5 text-sm tracking-widest uppercase hover:bg-gold hover:text-obsidian transition-all duration-300"
-            >
-              Invest
-            </a>
           </nav>
 
           {/* Mobile Menu Button */}
