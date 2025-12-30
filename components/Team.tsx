@@ -64,25 +64,6 @@ const teamMembers = [
   },
 ];
 
-const advisors = [
-  { name: "Luis Cuende", link: "https://www.perplexity.ai/search/luis-cuende-F5zhizGmTvy2vgWSol5IMw#0" },
-  { name: "Juan Benet", link: "https://www.perplexity.ai/search/juan-benet-and-how-could-he-ad-KgPr7KahTaagT1Z1ddvGjw#0" },
-  { name: "Agustin Antonetti", link: "https://www.perplexity.ai/search/agustin-antonetti-4_WekVX3QOu9IcFxX0DaaQ#0" },
-  { name: "Niklas Anzinger", link: "https://www.perplexity.ai/search/niklas-infinita-kmPfIo8qQsmMzXayhpX3YQ#0" },
-  { name: "Yeshodhara Baskaran", link: "https://www.perplexity.ai/search/yeshodhara-baskaran-nieQue6ETNyvKuObyu_YaQ#0" },
-  { name: "Christian Betancourt", link: "https://www.perplexity.ai/search/christian-betancourt-prospera-xIF338FUSgCc8nGoFxzceg#0" },
-  { name: "Sun (The Mu Pop Up City)", link: "https://www.perplexity.ai/search/sun-https-x-com-sunbh-eth-http-Re5TxErSRtePDPJselrMcg#0" },
-  { name: "Ala & Termak", note: "Policy Middle East for Deel UAE" },
-  { name: "Kimberly Adams", link: "https://www.perplexity.ai/search/kim-dubai-onchain-city-UKSY5XyNRbiF.0fjAuEO1w#0" },
-  { name: "Jesse Katz", link: "https://www.perplexity.ai/search/jesse-katz-speech-without-bord-DQop.jnwSBiIeBKff5.37g#0" },
-  { name: "Alejandro Tule Romeo", link: "https://www.perplexity.ai/search/https-www-linkedin-com-in-alej-zJAZaH.zQfSpEmUincKRjg#0" },
-  { name: "Mili Santamaria", link: "https://www.perplexity.ai/search/milagros-santamaria-7zYzzVWMRkCw9wUVviB28w#0" },
-  { name: "Bob Haywood", link: "https://www.perplexity.ai/search/bob-haywood-sez-YPwhwQiBRwSeqYWm0PmAcQ#0", note: "Pending" },
-  { name: "Janine Ledger", link: "https://www.perplexity.ai/search/janine-ledger-BYMFnDcWR4GMByzDNqnwFw#0" },
-  { name: "Alberto Gutierrez", note: "Argentine Family Office" },
-  { name: "Martin Rozemblum", note: "Family Office" },
-  { name: "Sebastian Ponzelis", note: "Family Office" },
-];
 
 export default function Team() {
   const ref = useRef(null);
@@ -109,7 +90,7 @@ export default function Team() {
         </motion.div>
 
         {/* Team Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {teamMembers.map((member, index) => (
             <motion.div
               key={member.name}
@@ -158,53 +139,6 @@ export default function Team() {
           ))}
         </div>
 
-        {/* Advisors Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        >
-          <div className="text-center mb-10">
-            <h3 className="font-[family-name:var(--font-syne)] text-2xl md:text-3xl font-bold mb-2">
-              Advisors & Partners
-            </h3>
-            <div className="w-16 h-1 bg-gold mx-auto" />
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-x-6 gap-y-3">
-            {advisors.map((advisor, index) => (
-              <motion.div
-                key={advisor.name}
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : {}}
-                transition={{ duration: 0.4, delay: 0.5 + index * 0.03 }}
-                className="flex items-center gap-2"
-              >
-                {advisor.link ? (
-                  <a
-                    href={advisor.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-marble hover:text-gold transition-colors font-medium inline-flex items-center gap-1"
-                  >
-                    {advisor.name}
-                    <svg className="w-3 h-3 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </a>
-                ) : (
-                  <span className="text-marble font-medium">{advisor.name}</span>
-                )}
-                {advisor.note && (
-                  <span className="text-stone-light text-sm">({advisor.note})</span>
-                )}
-                {index < advisors.length - 1 && (
-                  <span className="text-gold ml-4">•</span>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   );
