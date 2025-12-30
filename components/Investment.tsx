@@ -5,9 +5,10 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 
 const fundUse = [
-  { label: "First Jurisdiction Deployments", percentage: 45 },
-  { label: "Ecosystem Partnerships", percentage: 30 },
-  { label: "Go-to-Market Acceleration", percentage: 25 },
+  { label: "Tech Development", percentage: 50 },
+  { label: "Ecosystem Partnerships", percentage: 25 },
+  { label: "Go-to-Market Acceleration", percentage: 20 },
+  { label: "Operations", percentage: 5 },
 ];
 
 export default function Investment() {
