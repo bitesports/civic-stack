@@ -18,26 +18,16 @@ export default function L2StatesPage() {
   const [prefilledCountry, setPrefilledCountry] = useState<string>("");
   const formRef = useRef<HTMLDivElement>(null);
 
-  // Filter countries based on search and region
+  // Filter and sort countries alphabetically
   const filteredCountries = useMemo(() => {
-    return countries.filter((country) => {
-      const matchesSearch = country.name.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesRegion = selectedRegion === "all" || country.region === selectedRegion;
-      return matchesSearch && matchesRegion;
-    });
+    return countries
+      .filter((country) => {
+        const matchesSearch = country.name.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesRegion = selectedRegion === "all" || country.region === selectedRegion;
+        return matchesSearch && matchesRegion;
+      })
+      .sort((a, b) => a.name.localeCompare(b.name));
   }, [searchQuery, selectedRegion]);
-
-  // Group countries by region
-  const countriesByRegion = useMemo(() => {
-    const grouped: Record<string, typeof countries> = {};
-    filteredCountries.forEach((country) => {
-      if (!grouped[country.region]) {
-        grouped[country.region] = [];
-      }
-      grouped[country.region].push(country);
-    });
-    return grouped;
-  }, [filteredCountries]);
 
   const handleToggle = (countryName: string) => {
     setOpenCountry(openCountry === countryName ? null : countryName);
@@ -182,43 +172,23 @@ export default function L2StatesPage() {
                   </p>
                   <p className="text-stone text-sm">Countries</p>
                 </div>
-                <div className="w-px bg-stone-light/30" />
-                <div>
-                  <p className="font-[family-name:var(--font-syne)] text-3xl font-bold text-gold">
-                    {Object.keys(countriesByRegion).length}
-                  </p>
-                  <p className="text-stone text-sm">Regions</p>
-                </div>
               </motion.div>
 
-              {/* Countries List */}
+              {/* Countries List - Alphabetical */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="space-y-8"
+                className="space-y-3"
               >
-                {Object.entries(countriesByRegion).map(([region, regionCountries]) => (
-                  <div key={region}>
-                    <h3 className="font-[family-name:var(--font-syne)] text-xl font-bold text-obsidian mb-4 flex items-center gap-2">
-                      <span className="w-2 h-2 bg-gold rounded-full" />
-                      {region}
-                      <span className="text-stone text-sm font-normal">
-                        ({regionCountries.length} countries)
-                      </span>
-                    </h3>
-                    <div className="space-y-3">
-                      {regionCountries.map((country) => (
-                        <CountryAccordion
-                          key={country.iso}
-                          country={country}
-                          isOpen={openCountry === country.name}
-                          onToggle={() => handleToggle(country.name)}
-                          onContribute={handleContribute}
-                        />
-                      ))}
-                    </div>
-                  </div>
+                {filteredCountries.map((country) => (
+                  <CountryAccordion
+                    key={country.iso}
+                    country={country}
+                    isOpen={openCountry === country.name}
+                    onToggle={() => handleToggle(country.name)}
+                    onContribute={handleContribute}
+                  />
                 ))}
 
                 {filteredCountries.length === 0 && (
