@@ -44,7 +44,7 @@ const teamMembers = [
   {
     name: "Paisanos.io",
     role: "Design Agency",
-    image: null,
+    image: "/team/paisanos.png",
     link: "https://www.linkedin.com/company/paisanos/",
     linkType: "linkedin"
   },
