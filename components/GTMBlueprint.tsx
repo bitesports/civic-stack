@@ -13,6 +13,7 @@ const blueprintCards = [
       "Starting with a network state, adoption and testing is easier and can move at our pace, working with a team that's executing on this.",
     backgroundImage: "/multilocal-herosmall.png",
     accentColor: "gold",
+    link: "https://multilocal.vercel.app/",
   },
   {
     id: "uruguay",
@@ -22,6 +23,7 @@ const blueprintCards = [
       "A forward-thinking nation, small enough to create effective and quick changes in governance infrastructure.",
     backgroundImage: "/uruguay-bg.jpg",
     accentColor: "aegean",
+    link: null,
   },
 ];
 
@@ -54,77 +56,100 @@ export default function GTMBlueprint() {
 
         {/* Two Column Cards */}
         <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-          {blueprintCards.map((card, index) => (
-            <motion.div
-              key={card.id}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.2 + index * 0.15 }}
-              className="relative group overflow-hidden rounded-lg min-h-[320px] md:min-h-[400px]"
-            >
-              {/* Background Image */}
-              <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                style={{ backgroundImage: `url(${card.backgroundImage})` }}
-              />
+          {blueprintCards.map((card, index) => {
+            const CardWrapper = card.link ? "a" : "div";
+            const cardProps = card.link
+              ? { href: card.link, target: "_blank", rel: "noopener noreferrer" }
+              : {};
 
-              {/* Dark Overlay */}
-              <div className="absolute inset-0 bg-obsidian/70 group-hover:bg-obsidian/60 transition-colors duration-300" />
-
-              {/* Accent Border */}
-              <div
-                className={`absolute inset-0 border-2 ${
-                  card.accentColor === "gold" ? "border-gold/30" : "border-aegean/30"
-                } group-hover:border-opacity-60 transition-all duration-300`}
-              />
-
-              {/* Corner Accents */}
-              <div
-                className={`absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 ${
-                  card.accentColor === "gold" ? "border-gold" : "border-aegean"
-                }`}
-              />
-              <div
-                className={`absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 ${
-                  card.accentColor === "gold" ? "border-gold" : "border-aegean"
-                }`}
-              />
-              <div
-                className={`absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 ${
-                  card.accentColor === "gold" ? "border-gold" : "border-aegean"
-                }`}
-              />
-              <div
-                className={`absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 ${
-                  card.accentColor === "gold" ? "border-gold" : "border-aegean"
-                }`}
-              />
-
-              {/* Content */}
-              <div className="relative z-10 h-full flex flex-col justify-end p-6 md:p-8">
-                {/* Subtitle Badge */}
-                <span
-                  className={`inline-block self-start px-3 py-1 text-xs uppercase tracking-wider font-semibold rounded mb-3 ${
-                    card.accentColor === "gold"
-                      ? "bg-gold/20 text-gold"
-                      : "bg-aegean/20 text-aegean"
+            return (
+              <motion.div
+                key={card.id}
+                initial={{ opacity: 0, y: 40 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.2 + index * 0.15 }}
+              >
+                <CardWrapper
+                  {...cardProps}
+                  className={`relative group overflow-hidden rounded-lg min-h-[320px] md:min-h-[400px] block ${
+                    card.link ? "cursor-pointer" : ""
                   }`}
                 >
-                  {card.subtitle}
-                </span>
+                  {/* Background Image */}
+                  <div
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                    style={{ backgroundImage: `url(${card.backgroundImage})` }}
+                  />
 
-                {/* Title */}
-                <h3 className="font-[family-name:var(--font-syne)] text-3xl md:text-4xl font-bold text-marble mb-4">
-                  {card.title}
-                </h3>
+                  {/* Dark Overlay */}
+                  <div className="absolute inset-0 bg-obsidian/70 group-hover:bg-obsidian/60 transition-colors duration-300" />
 
-                {/* Description */}
-                <p className="text-stone-light text-base md:text-lg leading-relaxed max-w-md">
-                  {card.description}
-                </p>
-              </div>
-            </motion.div>
-          ))}
+                  {/* Accent Border */}
+                  <div
+                    className={`absolute inset-0 border-2 ${
+                      card.accentColor === "gold" ? "border-gold/30" : "border-aegean/30"
+                    } group-hover:border-opacity-60 transition-all duration-300`}
+                  />
+
+                  {/* Corner Accents */}
+                  <div
+                    className={`absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 ${
+                      card.accentColor === "gold" ? "border-gold" : "border-aegean"
+                    }`}
+                  />
+                  <div
+                    className={`absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 ${
+                      card.accentColor === "gold" ? "border-gold" : "border-aegean"
+                    }`}
+                  />
+                  <div
+                    className={`absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 ${
+                      card.accentColor === "gold" ? "border-gold" : "border-aegean"
+                    }`}
+                  />
+                  <div
+                    className={`absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 ${
+                      card.accentColor === "gold" ? "border-gold" : "border-aegean"
+                    }`}
+                  />
+
+                  {/* Content */}
+                  <div className="relative z-10 h-full flex flex-col justify-end p-6 md:p-8">
+                    {/* Subtitle Badge */}
+                    <span
+                      className={`inline-block self-start px-3 py-1 text-xs uppercase tracking-wider font-semibold rounded mb-3 ${
+                        card.accentColor === "gold"
+                          ? "bg-gold/20 text-gold"
+                          : "bg-aegean/20 text-aegean"
+                      }`}
+                    >
+                      {card.subtitle}
+                    </span>
+
+                    {/* Title */}
+                    <h3 className="font-[family-name:var(--font-syne)] text-3xl md:text-4xl font-bold text-marble mb-4">
+                      {card.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-stone-light text-base md:text-lg leading-relaxed max-w-md">
+                      {card.description}
+                    </p>
+
+                    {/* Link indicator for clickable cards */}
+                    {card.link && (
+                      <span className="mt-4 inline-flex items-center gap-2 text-gold text-sm font-semibold group-hover:gap-3 transition-all">
+                        Visit Site
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                      </span>
+                    )}
+                  </div>
+                </CardWrapper>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
