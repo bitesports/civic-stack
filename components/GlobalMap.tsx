@@ -64,12 +64,8 @@ const activeCountries: Record<string, { status: string; type: "nation" | "networ
 
 // Network states (virtual markers)
 const networkStates = [
-  { id: "praxis", name: "Praxis", status: "Building", x: 420, y: 220 },
   { id: "prospera", name: "Próspera", status: "Live", x: 180, y: 280 },
-  { id: "liberland", name: "Liberland", status: "Building", x: 500, y: 200 },
   { id: "zuzalu", name: "Zuzalu", status: "Active", x: 510, y: 210 },
-  { id: "vitalia", name: "Vitalia", status: "Building", x: 175, y: 275 },
-  { id: "culdesac", name: "Culdesac", status: "Exploring", x: 150, y: 230 },
 ];
 
 export default function GlobalMap() {
