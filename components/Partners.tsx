@@ -9,22 +9,22 @@ const partners = [
   { 
     name: "Filecoin", 
     category: "Storage",
-    logo: "/partners/Filecoin.png"
+    logo: "/partners/filecoin.png"
   },
   { 
     name: "Aztec", 
     category: "Privacy",
-    logo: "/partners/Aztec.png"
+    logo: "/partners/aztec.png"
   },
   { 
     name: "Zama", 
     category: "Privacy",
-    logo: "/partners/Zama.png"
+    logo: "/partners/zama.png"
   },
   { 
     name: "Genlayer", 
     category: "Disputes",
-    logo: "/partners/Genlayer.png"
+    logo: "/partners/genlayer.png"
   },
   { 
     name: "m0", 
@@ -34,12 +34,12 @@ const partners = [
   { 
     name: "Uniswap", 
     category: "Exchange",
-    logo: "/partners/Uniswap.png"
+    logo: "/partners/uniswap.png"
   },
   { 
     name: "Davinci.vote", 
     category: "Governance",
-    logo: "/partners/Davinci.png"
+    logo: "/partners/davinci.png"
   },
   { 
     name: "Kleros", 
