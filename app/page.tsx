@@ -7,6 +7,7 @@ import Stack from "@/components/Stack";
 import Layer0 from "@/components/Layer0";
 import Partners from "@/components/Partners";
 import Team from "@/components/Team";
+import GTMBlueprint from "@/components/GTMBlueprint";
 import Investment from "@/components/Investment";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
@@ -23,6 +24,7 @@ export default function Home() {
       <Layer0 />
       <Partners />
       <Team />
+      <GTMBlueprint />
       <Investment />
       <CTASection />
       <Footer />
