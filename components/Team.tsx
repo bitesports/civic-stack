@@ -21,13 +21,6 @@ const teamMembers = [
     linkType: "linkedin"
   },
   {
-    name: "Rena O. (Potential)",
-    role: "Chief of Staff",
-    image: "/team/Rena.jpeg",
-    link: "https://www.linkedin.com/in/renaobrien/",
-    linkType: "linkedin"
-  },
-  {
     name: "Marc Baque Vilamala",
     role: "Fullstack Engineer, Identity",
     image: "/team/Marc.jpeg",

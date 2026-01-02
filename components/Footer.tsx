@@ -53,30 +53,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Connect */}
-          <div>
-            <h4 className="font-[family-name:var(--font-syne)] font-semibold mb-4 text-gold">
-              Connect
-            </h4>
-            <ul className="space-y-2">
-              {[
-                { label: "Twitter / X", href: "https://twitter.com" },
-                { label: "LinkedIn", href: "https://linkedin.com" },
-                { label: "GitHub", href: "https://github.com" },
-              ].map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-stone-light hover:text-gold transition-colors text-sm"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
 
         {/* Bottom Bar */}
