@@ -16,10 +16,10 @@ export default function Header() {
   }, []);
 
   const navItems = [
-    { label: "The Stack", href: "#stack" },
+    { label: "The Stack", href: "/#stack" },
     { label: "L2 States", href: "/l2states" },
-    { label: "Partners", href: "#partners" },
-    { label: "Team", href: "#team" },
+    { label: "Partners", href: "/#partners" },
+    { label: "Team", href: "/#team" },
   ];
 
   return (
@@ -33,7 +33,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-3">
+          <a href="/" className="flex items-center gap-3">
             <img 
               src="/logo.svg" 
               alt="Civic Stack" 
