@@ -57,7 +57,7 @@ export default function PasswordGate({ children }: PasswordGateProps) {
             className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: `url("/hero-bg.png")` }}
           />
-          <div className="absolute inset-0 bg-obsidian/80" />
+          <div className="absolute inset-0 bg-obsidian/50" />
         </div>
 
         {/* Gate content */}
