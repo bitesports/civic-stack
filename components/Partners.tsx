@@ -9,42 +9,42 @@ const partners = [
   { 
     name: "Filecoin", 
     category: "Storage",
-    logo: "https://cdn.discordapp.com/attachments/1217149062290346087/1455276241203757311/Filecoin.png?ex=6954231d&is=6952d19d&hm=62b4d9aee4507825831a5682eb1701c2e6be0c9df91a089740b1784ea72723e3&"
+    logo: "/partners/Filecoin.png"
   },
   { 
     name: "Aztec", 
     category: "Privacy",
-    logo: "https://cdn.discordapp.com/attachments/1217149062290346087/1455276241530781934/Aztec.png?ex=6954231d&is=6952d19d&hm=c3c74182c2727fd63ac13054d28fb3bbaf94df2f2aef9da47893b731dee304e5&"
+    logo: "/partners/Aztec.png"
   },
   { 
     name: "Zama", 
     category: "Privacy",
-    logo: "https://cdn.discordapp.com/attachments/1217149062290346087/1455276241887432807/Zama.png?ex=6954231d&is=6952d19d&hm=e2d8ab99fe6f0a66f3049c6f114aefba64c7baec1663738bc792ca64435f1999&"
+    logo: "/partners/Zama.png"
   },
   { 
     name: "Genlayer", 
     category: "Disputes",
-    logo: "https://cdn.discordapp.com/attachments/1217149062290346087/1455276242524704768/Genlayer.png?ex=6954231d&is=6952d19d&hm=ebd4e75f93e50d755e508090d9e1512c0a1a3e0fcbefc49e01ee4240f7eedce8&"
+    logo: "/partners/Genlayer.png"
   },
   { 
     name: "m0", 
     category: "Stablecoin",
-    logo: "https://cdn.discordapp.com/attachments/1217149062290346087/1455276243066028195/m0.jpg?ex=6954231e&is=6952d19e&hm=91cb9677d7ad13c2f7d4560b8892eb6495ec3dc8cf1560b9a978828633839994&"
+    logo: "/partners/m0.jpg"
   },
   { 
     name: "Uniswap", 
     category: "Exchange",
-    logo: "https://cdn.discordapp.com/attachments/1217149062290346087/1455276243577471222/Uniswap.png?ex=6954231e&is=6952d19e&hm=a7d56fea7c8d97a99be7e81554191101baa48fd3154a74a9988ff1da278cb252&"
+    logo: "/partners/Uniswap.png"
   },
   { 
     name: "Davinci.vote", 
     category: "Governance",
-    logo: "https://cdn.discordapp.com/attachments/1217149062290346087/1455276240784199803/Davinci.png?ex=6954231d&is=6952d19d&hm=edf2751148109befe160faf82720424922b4f4ab4294cea64c27391e73de796e&"
+    logo: "/partners/Davinci.png"
   },
   { 
     name: "Kleros", 
     category: "Disputes",
-    logo: "https://cdn.discordapp.com/attachments/1217149062290346087/1455277585935372543/kleros-logo.png?ex=6954245e&is=6952d2de&hm=646376511fbe190b05907320b2cc717e9d0f64d54748f443c573f0c88b328ad2"
+    logo: "/partners/Kleros.svg"
   },
 ];
 

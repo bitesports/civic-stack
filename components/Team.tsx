@@ -9,56 +9,56 @@ const teamMembers = [
   {
     name: "Emi Velazquez",
     role: "CEO",
-    image: "https://cdn.discordapp.com/attachments/1217149062290346087/1455282197408780593/KhbR2c0r_400x400.jpg?ex=695428a9&is=6952d729&hm=f9b0f8ab610241d2ee775ee8894b3f1ff58a7b213930862cd2354e16e616d4ef&",
+    image: "/team/KhbR2c0r_400x400.jpg",
     link: "https://x.com/emivelazquez6",
     linkType: "twitter"
   },
   {
     name: "KC",
     role: "CTO",
-    image: "https://cdn.discordapp.com/attachments/1217149062290346087/1455282198184853556/1618652361489.jpeg?ex=695428a9&is=6952d729&hm=8fd8abb2d1676afe17adfbd914b7de2d00d0d784be92f997b93d3b40a8b3caa7&",
+    image: "/team/KC.jpeg",
     link: "https://www.linkedin.com/in/kritarthchhabra/",
     linkType: "linkedin"
   },
   {
     name: "Rena O. (Potential)",
     role: "Chief of Staff",
-    image: "https://cdn.discordapp.com/attachments/1217149062290346087/1455282197069303930/1727649008872.jpeg?ex=695428a9&is=6952d729&hm=5f6e9ada6b77afec44298242d40a1de5073a9d86e0c38be988ac04ade17be158&",
+    image: "/team/Rena.jpeg",
     link: "https://www.linkedin.com/in/renaobrien/",
     linkType: "linkedin"
   },
   {
     name: "Marc Baque Vilamala",
     role: "Fullstack Engineer, Identity",
-    image: "https://cdn.discordapp.com/attachments/1217149062290346087/1455282196700069971/1673966347134.jpeg?ex=695428a9&is=6952d729&hm=0e8647632740e3b9afdbf57e23047433f72d2ce98bb5be38f106414dcaf0fec5&",
+    image: "/team/Marc.jpeg",
     link: "https://www.linkedin.com/in/marcbaque/",
     linkType: "linkedin"
   },
   {
     name: "Jordi Pinyana",
     role: "Voting and Governance",
-    image: "https://cdn.discordapp.com/attachments/1217149062290346087/1455282196339232991/1718228618684.jpeg?ex=695428a9&is=6952d729&hm=8ffd59f530322689fbcd33f8fd784d9c72db128d7258538ffe80374d0514af2d&",
+    image: "/team/Jordi.jpeg",
     link: "https://www.linkedin.com/in/jordi-painan/",
     linkType: "linkedin"
   },
   {
     name: "Paisanos.io",
     role: "Design Agency",
-    image: "https://cdn.discordapp.com/attachments/1217149062290346087/1455282196100419594/Screenshot_2025-12-29_at_4.29.14_PM.png?ex=695428a9&is=6952d729&hm=84769bc6b15bc6610eec4593af64fa2a33dd7b8e0a981d180f583591681af374&",
+    image: null,
     link: "https://www.linkedin.com/company/paisanos/",
     linkType: "linkedin"
   },
   {
     name: "Mike Tango Bravo",
     role: "Global BD",
-    image: "https://cdn.discordapp.com/attachments/1217149062290346087/1455282195710214225/1516791016741.jpeg?ex=695428a9&is=6952d729&hm=eb065f46f261b297834a25a26021835288a6b27739ee3d29b4e788cf4d277a68&",
+    image: "/team/MikeBravo.jpeg",
     link: "https://www.linkedin.com/in/barrowmike/",
     linkType: "linkedin"
   },
   {
     name: "Matias Huala",
     role: "Chief Operations Latam",
-    image: "https://cdn.discordapp.com/attachments/1217149062290346087/1455282195366285312/Screenshot_2025-12-29_at_4.31.21_PM.png?ex=695428a9&is=6952d729&hm=4124a45655206af295b46832ef0725d989eb311a3bdab25d1404398ac8600650&",
+    image: "/team/MatiasHuala.png",
     link: "https://www.linkedin.com/in/matias-huala/",
     linkType: "linkedin"
   },
@@ -116,13 +116,20 @@ export default function Team() {
               className="text-center group"
             >
               <div className="relative w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-2 border-gold/30 group-hover:border-gold transition-colors duration-300">
-                <Image
-                  src={member.image}
-                  alt={member.name}
-                  fill
-                  className="object-cover"
-                  unoptimized
-                />
+                {member.image ? (
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gold/20 flex items-center justify-center">
+                    <span className="font-[family-name:var(--font-syne)] font-bold text-2xl text-gold">
+                      {member.name.charAt(0)}
+                    </span>
+                  </div>
+                )}
               </div>
               <div className="flex items-center justify-center gap-2 mb-1">
                 <h3 className="font-[family-name:var(--font-syne)] font-semibold text-marble">
