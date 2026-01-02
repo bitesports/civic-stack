@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Syne, Outfit } from "next/font/google";
 import "./globals.css";
+import PasswordGate from "@/components/PasswordGate";
 
 const syne = Syne({
   variable: "--font-syne",
@@ -41,7 +42,7 @@ export default function RootLayout({
       <body
         className={`${syne.variable} ${outfit.variable} antialiased bg-marble text-obsidian`}
       >
-        {children}
+        <PasswordGate>{children}</PasswordGate>
       </body>
     </html>
   );
