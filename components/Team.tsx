@@ -21,7 +21,7 @@ const teamMembers = [
     linkType: "linkedin"
   },
   {
-    name: "Rena O",
+    name: "Rena O. (Potential)",
     role: "Chief of Staff",
     image: "https://cdn.discordapp.com/attachments/1217149062290346087/1455282197069303930/1727649008872.jpeg?ex=695428a9&is=6952d729&hm=5f6e9ada6b77afec44298242d40a1de5073a9d86e0c38be988ac04ade17be158&",
     link: "https://www.linkedin.com/in/renaobrien/",
