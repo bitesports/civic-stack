@@ -145,8 +145,7 @@ export default function Stack() {
             The Stack
           </h2>
           <p className="text-stone text-base md:text-lg max-w-2xl mx-auto px-4">
-            Adopt modules independently or deploy as a complete system. 
-            Each component is battle-tested and ready for production.
+            Adopt modules independently or deploy as a complete system.
           </p>
         </motion.div>
 
